@@ -1,0 +1,2 @@
+# Prompt templates go here as .txt or .yaml files.
+# Import them in chains via pathlib — never inline strings.
