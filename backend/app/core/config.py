@@ -1,16 +1,26 @@
 from typing import Optional
+from pathlib import Path
 
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+ENV_FILE_PATH = Path(__file__).resolve().parents[2] / ".env"
+
+# Ensure env vars are present in os.environ even when uvicorn starts from a
+# different working directory/reloader process.
+load_dotenv(dotenv_path=str(ENV_FILE_PATH), override=True)
+
+
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=str(ENV_FILE_PATH), extra="ignore")
 
     # App
     SECRET_KEY: str
     JWT_EXPIRE_MINUTES: int = 480
     APP_NAME: str = "amzur-ai-chat"
     ENVIRONMENT: str = "development"
+    FRONTEND_URL: str = "http://localhost:5173"
 
     # Database
     DATABASE_URL: str
@@ -20,7 +30,9 @@ class Settings(BaseSettings):
     LITELLM_API_KEY: str
     LLM_MODEL: str = "gemini/gemini-2.5-flash"
     LITELLM_EMBEDDING_MODEL: str = "text-embedding-3-large"
-    IMAGE_GEN_MODEL: str = "gemini/imagen-4.0-fast-generate-001"
+    IMAGE_GEN_MODEL: str = "gemini/gemini-2.5-flash-image"
+    GEMINI_API_KEY: Optional[str] = None
+    OPENAI_API_KEY: Optional[str] = None
 
     # Google OAuth
     GOOGLE_CLIENT_ID: Optional[str] = None
@@ -28,6 +40,7 @@ class Settings(BaseSettings):
     GOOGLE_REDIRECT_URI: str = "http://localhost:8000/api/auth/google/callback"
 
     # ChromaDB
+    CHROMA_DB_PATH: str = "./chromadb"
     CHROMA_PERSIST_DIR: str = "./chroma_db"
 
     # Google Sheets

@@ -58,13 +58,8 @@ export function AuthPage({ onAuth }: Props) {
   };
 
   const handleGoogleLogin = async () => {
-    try {
-      const res = await fetch(`${BASE}/api/auth/google`, { credentials: "include" });
-      const data = await res.json();
-      if (data?.url) window.location.href = data.url;
-    } catch {
-      setError("Could not initiate Google login.");
-    }
+    setError("");
+    window.location.href = `${BASE}/api/auth/google/start`;
   };
 
   return (

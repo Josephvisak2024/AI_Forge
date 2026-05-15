@@ -1,8 +1,11 @@
 import uuid
+import traceback
 from urllib.parse import urlencode
 
 import httpx
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi.responses import RedirectResponse
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
@@ -25,6 +28,14 @@ _ALLOWED_DOMAINS = {"amzur.com", "evokesystems.com"}
 _GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 _GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 _GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo"
+
+
+def _frontend_redirect_url(request: Request | None = None) -> str:
+    if request:
+        origin = request.headers.get("origin")
+        if origin and (origin.startswith("http://localhost") or origin.startswith("http://127.0.0.1") or origin.startswith("https://localhost") or origin.startswith("https://127.0.0.1")):
+            return origin.rstrip("/")
+    return settings.FRONTEND_URL.rstrip("/")
 
 
 def _check_domain(email: str) -> None:
@@ -83,7 +94,7 @@ async def login(
 # ── Google OAuth 2.0 ──────────────────────────────────────────────────────────
 
 @router.get("/google")
-async def google_login() -> dict:
+async def google_login(request: Request) -> dict:
     """Return the Google OAuth consent-screen URL for the frontend to redirect to."""
     if not settings.GOOGLE_CLIENT_ID:
         raise HTTPException(status_code=501, detail="Google OAuth not configured")
@@ -94,67 +105,131 @@ async def google_login() -> dict:
         "scope": "openid email profile",
         "access_type": "offline",
         "prompt": "select_account",
+        "state": _frontend_redirect_url(request),
     }
     return {"url": f"{_GOOGLE_AUTH_URL}?{urlencode(params)}"}
 
 
+@router.get("/google/start")
+async def google_login_start(request: Request) -> RedirectResponse:
+    """Start Google OAuth via server-side redirect (no frontend fetch/CORS dependency)."""
+    if not settings.GOOGLE_CLIENT_ID:
+        raise HTTPException(status_code=501, detail="Google OAuth not configured")
+    params = {
+        "client_id": settings.GOOGLE_CLIENT_ID,
+        "redirect_uri": settings.GOOGLE_REDIRECT_URI,
+        "response_type": "code",
+        "scope": "openid email profile",
+        "access_type": "offline",
+        "prompt": "select_account",
+        "state": _frontend_redirect_url(request),
+    }
+    return RedirectResponse(url=f"{_GOOGLE_AUTH_URL}?{urlencode(params)}", status_code=302)
+
+
 @router.get("/google/callback")
 async def google_callback(
+    request: Request,
     code: str,
-    response: Response,
+    state: str | None = None,
     db: AsyncSession = Depends(get_db),
-) -> None:
+) -> RedirectResponse:
     """Exchange the auth code for tokens, upsert the user, set cookie, redirect to frontend."""
     if not settings.GOOGLE_CLIENT_ID or not settings.GOOGLE_CLIENT_SECRET:
         raise HTTPException(status_code=501, detail="Google OAuth not configured")
 
-    async with httpx.AsyncClient() as client:
-        # Exchange code for tokens
-        token_res = await client.post(
-            _GOOGLE_TOKEN_URL,
-            data={
-                "code": code,
-                "client_id": settings.GOOGLE_CLIENT_ID,
-                "client_secret": settings.GOOGLE_CLIENT_SECRET,
-                "redirect_uri": settings.GOOGLE_REDIRECT_URI,
-                "grant_type": "authorization_code",
-            },
-        )
-        if token_res.status_code != 200:
-            raise HTTPException(status_code=400, detail="Failed to exchange Google auth code")
-        token_data = token_res.json()
+    frontend_base = _frontend_redirect_url(request)
+    if state and (
+        state.startswith("http://localhost")
+        or state.startswith("http://127.0.0.1")
+        or state.startswith("https://localhost")
+        or state.startswith("https://127.0.0.1")
+    ):
+        frontend_base = state.rstrip("/")
 
-        # Fetch user profile
-        userinfo_res = await client.get(
-            _GOOGLE_USERINFO_URL,
-            headers={"Authorization": f"Bearer {token_data['access_token']}"},
+    try:
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            # Exchange code for tokens
+            token_res = await client.post(
+                _GOOGLE_TOKEN_URL,
+                data={
+                    "code": code,
+                    "client_id": settings.GOOGLE_CLIENT_ID,
+                    "client_secret": settings.GOOGLE_CLIENT_SECRET,
+                    "redirect_uri": settings.GOOGLE_REDIRECT_URI,
+                    "grant_type": "authorization_code",
+                },
+            )
+            if token_res.status_code != 200:
+                return RedirectResponse(
+                    url=f"{frontend_base}/?auth_error=google_token_exchange_failed",
+                    status_code=302,
+                )
+            token_data = token_res.json()
+            access_token = token_data.get("access_token")
+            if not access_token:
+                return RedirectResponse(
+                    url=f"{frontend_base}/?auth_error=google_access_token_missing",
+                    status_code=302,
+                )
+
+            # Fetch user profile
+            userinfo_res = await client.get(
+                _GOOGLE_USERINFO_URL,
+                headers={"Authorization": f"Bearer {access_token}"},
+            )
+            if userinfo_res.status_code != 200:
+                return RedirectResponse(
+                    url=f"{frontend_base}/?auth_error=google_userinfo_failed",
+                    status_code=302,
+                )
+            info = userinfo_res.json()
+    except httpx.HTTPError:
+        return RedirectResponse(
+            url=f"{frontend_base}/?auth_error=google_network_error",
+            status_code=302,
         )
-        if userinfo_res.status_code != 200:
-            raise HTTPException(status_code=400, detail="Failed to fetch Google user info")
-        info = userinfo_res.json()
 
     email: str = info.get("email", "")
-    _check_domain(email)
-
-    user = await get_user_by_email(db, email)
-    if not user:
-        user = User(
-            id=str(uuid.uuid4()),
-            email=email,
-            display_name=info.get("name") or email.split("@")[0],
-            google_id=info.get("sub"),
+    try:
+        _check_domain(email)
+    except HTTPException:
+        return RedirectResponse(
+            url=f"{frontend_base}/?auth_error=domain_not_allowed",
+            status_code=302,
         )
-        db.add(user)
-        await db.commit()
-        await db.refresh(user)
-    elif not user.google_id:
-        user.google_id = info.get("sub")
-        await db.commit()
 
-    response.set_cookie("access_token", create_access_token(user.id), **_COOKIE)
-    # Redirect to the frontend
-    response.status_code = 302
-    response.headers["location"] = "http://localhost:5173/"
+    try:
+        user = await get_user_by_email(db, email)
+        if not user:
+            user = User(
+                id=str(uuid.uuid4()),
+                email=email,
+                display_name=info.get("name") or email.split("@")[0],
+                google_id=info.get("sub"),
+            )
+            db.add(user)
+            await db.commit()
+            await db.refresh(user)
+        elif not user.google_id:
+            user.google_id = info.get("sub")
+            await db.commit()
+    except SQLAlchemyError:
+        return RedirectResponse(
+            url=f"{frontend_base}/?auth_error=db_unavailable",
+            status_code=302,
+        )
+    except Exception:
+        traceback.print_exc()
+        return RedirectResponse(
+            url=f"{frontend_base}/?auth_error=google_callback_exception",
+            status_code=302,
+        )
+
+    # Create redirect response and set cookie
+    redirect_response = RedirectResponse(url=f"{frontend_base}/", status_code=302)
+    redirect_response.set_cookie("access_token", create_access_token(user.id), **_COOKIE)
+    return redirect_response
 
 
 # ── session ───────────────────────────────────────────────────────────────────

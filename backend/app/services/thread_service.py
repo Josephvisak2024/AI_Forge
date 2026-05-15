@@ -25,6 +25,22 @@ async def get_user_threads(db: AsyncSession, user_id: str) -> list[Thread]:
     return list(result.scalars().all())
 
 
+async def get_recent_messages(db: AsyncSession, thread_id: str, limit: int = 10) -> list[Message]:
+    """Return the last *limit* messages for a thread, ordered oldest → newest.
+
+    Used to build the ConversationBufferWindowMemory context before each LLM
+    call.  With k=5 pairs we need at most 10 rows, so the default limit is 10.
+    """
+    result = await db.execute(
+        select(Message)
+        .where(Message.thread_id == thread_id)
+        .order_by(Message.created_at.desc())
+        .limit(limit)
+    )
+    messages = list(result.scalars().all())
+    return list(reversed(messages))  # restore chronological order
+
+
 async def get_thread_messages(db: AsyncSession, thread_id: str, user_id: str) -> list[Message]:
     thread = await db.get(Thread, thread_id)
     if not thread or thread.user_id != user_id:
@@ -37,8 +53,22 @@ async def get_thread_messages(db: AsyncSession, thread_id: str, user_id: str) ->
     return list(result.scalars().all())
 
 
-async def save_message(db: AsyncSession, thread_id: str, role: str, content: str) -> Message:
-    msg = Message(id=str(uuid.uuid4()), thread_id=thread_id, role=role, content=content)
+async def save_message(
+    db: AsyncSession,
+    thread_id: str,
+    role: str,
+    content: str,
+    attachment_url: str | None = None,
+    attachment_type: str | None = None,
+) -> Message:
+    msg = Message(
+        id=str(uuid.uuid4()),
+        thread_id=thread_id,
+        role=role,
+        content=content,
+        attachment_url=attachment_url or None,
+        attachment_type=attachment_type or None,
+    )
     db.add(msg)
     await db.execute(
         update(Thread)

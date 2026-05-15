@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime, timezone
+from typing import Optional
 
 from sqlalchemy import DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
@@ -18,3 +19,6 @@ class Message(Base):
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
     )
+    # Project 5 — attachment metadata
+    attachment_url: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    attachment_type: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)

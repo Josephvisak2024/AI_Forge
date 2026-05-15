@@ -18,5 +18,11 @@ export interface ChatMessage {
   id?: string;
   role: "user" | "assistant";
   content: string;
+  attachment_url?: string;
+  attachment_type?: string;
+  db_sql_query?: string;
+  db_results?: Array<Record<string, unknown>>;
+  db_row_count?: number;
+  db_database_name?: string;
   created_at?: string;
 }

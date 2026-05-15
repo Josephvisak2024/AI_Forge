@@ -73,6 +73,13 @@ async def get_messages(
 ) -> list[MessageResponse]:
     messages = await get_thread_messages(db, thread_id, current_user.id)
     return [
-        MessageResponse(id=m.id, role=m.role, content=m.content, created_at=m.created_at)
+        MessageResponse(
+            id=m.id,
+            role=m.role,
+            content=m.content,
+            attachment_url=m.attachment_url,
+            attachment_type=m.attachment_type,
+            created_at=m.created_at,
+        )
         for m in messages
     ]

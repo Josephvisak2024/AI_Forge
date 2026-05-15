@@ -8,4 +8,21 @@ class Message(BaseModel):
 
 class ChatRequest(BaseModel):
     thread_id: str
-    messages: list[Message]
+    user_message: str
+
+
+class ChatResponse(BaseModel):
+    ai_response: str
+    thread_id: str
+
+
+class GenerateImageRequest(BaseModel):
+    prompt: str
+    thread_id: str
+
+
+class GenerateImageResponse(BaseModel):
+    image_base64: str
+    image_format: str = "png"
+    prompt: str
+    thread_id: str
