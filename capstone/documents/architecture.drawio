@@ -1,0 +1,357 @@
+<mxfile host="app.diagrams.net" modified="2026-06-11T00:00:00.000Z" agent="GitHub Copilot" version="21.0.0" type="device">
+  <diagram id="capstone-architecture" name="Capstone Architecture">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============================================================ -->
+        <!-- TITLE -->
+        <!-- ============================================================ -->
+        <mxCell id="title" value="Capstone: HR Tech — Resume Screening Swarm" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1a1a2e;" vertex="1" parent="1">
+          <mxGeometry x="327" y="20" width="1000" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LAYER: USER -->
+        <!-- ============================================================ -->
+        <mxCell id="layer-user-bg" value="User" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="90" width="480" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="browser" value="&lt;b&gt;Browser&lt;/b&gt;&lt;br/&gt;Upload Resume (PDF/DOCX)&lt;br/&gt;+ Job Description" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="layer-user-bg">
+          <mxGeometry x="80" y="45" width="155" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="constraints" value="&lt;b&gt;Input Constraints&lt;/b&gt;&lt;br/&gt;Max 5 MB | PDF or DOCX&lt;br/&gt;JD: 500–3000 chars" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="layer-user-bg">
+          <mxGeometry x="255" y="45" width="155" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LAYER: FRONTEND -->
+        <!-- ============================================================ -->
+        <mxCell id="layer-fe-bg" value="Frontend  —  React 18 + Vite 5 + Tailwind CSS v3.4  (port 5174)" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="180" y="240" width="1300" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-upload" value="&lt;b&gt;UploadForm&lt;/b&gt;&lt;br/&gt;Drag-drop resume&lt;br/&gt;+ JD textarea" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="30" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-dashboard" value="&lt;b&gt;ScreeningDashboard&lt;/b&gt;&lt;br/&gt;Agent progress bar&lt;br/&gt;Live panel updates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="180" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-header" value="&lt;b&gt;CandidateHeader&lt;/b&gt;&lt;br/&gt;Avatar, Name,&lt;br/&gt;Title, Contacts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="330" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-gauge" value="&lt;b&gt;SuitabilityGauge&lt;/b&gt;&lt;br/&gt;Animated SVG&lt;br/&gt;semicircle score" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="480" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-skills" value="&lt;b&gt;SkillMatrix&lt;/b&gt;&lt;br/&gt;Animated bars&lt;br/&gt;+ missing chips" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="630" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-journey" value="&lt;b&gt;ProfessionalJourney&lt;/b&gt;&lt;br/&gt;Work history&lt;br/&gt;timeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="780" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-education" value="&lt;b&gt;EducationPanel&lt;/b&gt;&lt;br/&gt;Degrees +&lt;br/&gt;Certifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="930" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-risk" value="&lt;b&gt;RiskAnalysis&lt;/b&gt;&lt;br/&gt;3-panel risk&lt;br/&gt;assessment cards" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="1080" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fe-final" value="&lt;b&gt;FinalRecommendation&lt;/b&gt;&lt;br/&gt;SHORTLISTED /&lt;br/&gt;REVIEW / REJECTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-fe-bg">
+          <mxGeometry x="1145" y="55" width="130" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- VITE PROXY -->
+        <!-- ============================================================ -->
+        <mxCell id="vite-proxy" value="&lt;b&gt;Vite Dev Server Proxy&lt;/b&gt;&lt;br/&gt;/api  →  localhost:8000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="707" y="445" width="245" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LAYER: BACKEND -->
+        <!-- ============================================================ -->
+        <mxCell id="layer-be-bg" value="Backend  —  FastAPI + Python 3.11+  (port 8000)" style="swimlane;startSize=30;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="180" y="530" width="1300" height="210" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-endpoint" value="&lt;b&gt;POST /api/screen&lt;/b&gt;&lt;br/&gt;multipart/form-data&lt;br/&gt;(resume file + JD text)&lt;br/&gt;StreamingResponse (SSE)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="30" y="55" width="155" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-validation" value="&lt;b&gt;Input Validation&lt;/b&gt;&lt;br/&gt;MIME type check&lt;br/&gt;5 MB size limit&lt;br/&gt;JD length guard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="205" y="55" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-parser" value="&lt;b&gt;Resume Parser&lt;/b&gt;&lt;br/&gt;pypdf (PDF)&lt;br/&gt;python-docx (DOCX)&lt;br/&gt;→ raw text" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="365" y="55" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-orchestrator" value="&lt;b&gt;Async Orchestrator&lt;/b&gt;&lt;br/&gt;asyncio.create_task()&lt;br/&gt;asyncio.Queue&lt;br/&gt;Stream-as-complete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="525" y="55" width="155" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-json" value="&lt;b&gt;JSON Parser&lt;/b&gt;&lt;br/&gt;Robust extraction&lt;br/&gt;from LLM responses" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="700" y="55" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-cors" value="&lt;b&gt;CORS Middleware&lt;/b&gt;&lt;br/&gt;allow_origins=[&quot;*&quot;]&lt;br/&gt;all methods &amp; headers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="860" y="55" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-config" value="&lt;b&gt;Config (Settings)&lt;/b&gt;&lt;br/&gt;.env loader&lt;br/&gt;LITELLM_API_KEY&lt;br/&gt;LITELLM_PROXY_URL&lt;br/&gt;LLM_MODEL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="1020" y="45" width="140" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be-sse" value="&lt;b&gt;SSE Event Format&lt;/b&gt;&lt;br/&gt;text/event-stream&lt;br/&gt;{type, data} per agent&lt;br/&gt;ends: data: [DONE]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="layer-be-bg">
+          <mxGeometry x="1180" y="55" width="100" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LAYER: AGENTS -->
+        <!-- ============================================================ -->
+        <mxCell id="layer-agents-bg" value="AI Agents  —  LangChain + LangChain-OpenAI" style="swimlane;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="180" y="780" width="1300" height="190" as="geometry" />
+        </mxCell>
+
+        <!-- Parallel agents label -->
+        <mxCell id="parallel-label" value="Parallel (asyncio.create_task)" style="text;html=1;strokeColor=none;fillColor=#fff0f0;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;rounded=1;arcSize=50;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="30" y="35" width="230" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="agent-experience" value="&lt;b&gt;Experience Agent&lt;/b&gt;&lt;br/&gt;Work history vs JD&lt;br/&gt;years_of_experience&lt;br/&gt;alignment_score (0-10)&lt;br/&gt;work_history[]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="30" y="70" width="150" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="agent-skills" value="&lt;b&gt;Skills Agent&lt;/b&gt;&lt;br/&gt;Skill gap analysis&lt;br/&gt;match_percentage&lt;br/&gt;skill_scores[]&lt;br/&gt;missing_skills[]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="200" y="70" width="150" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="agent-education" value="&lt;b&gt;Education Agent&lt;/b&gt;&lt;br/&gt;Degrees, certs&lt;br/&gt;meets_requirements&lt;br/&gt;result: PASS/FAIL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="370" y="70" width="150" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="agent-redflags" value="&lt;b&gt;Red Flags Agent&lt;/b&gt;&lt;br/&gt;Tenure stability&lt;br/&gt;Skills authenticity&lt;br/&gt;Employment gaps&lt;br/&gt;PASS/WARNING/FAIL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="540" y="70" width="150" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Sequential scoring agent label -->
+        <mxCell id="seq-label" value="Sequential (after all 4 complete)" style="text;html=1;strokeColor=none;fillColor=#fff0f0;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;rounded=1;arcSize=50;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="750" y="35" width="240" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="agent-scoring" value="&lt;b&gt;Scoring Agent&lt;/b&gt;&lt;br/&gt;Aggregates all 4 results&lt;br/&gt;Experience: 0-30 pts&lt;br/&gt;Skills: 0-40 pts&lt;br/&gt;Education: 0-20 pts&lt;br/&gt;Red Flags: -10 to 0&lt;br/&gt;final_score + recommendation&lt;br/&gt;SHORTLISTED / REVIEW / REJECTED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="760" y="55" width="200" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Score thresholds -->
+        <mxCell id="thresholds" value="&lt;b&gt;Score Thresholds&lt;/b&gt;&lt;br/&gt;90-100: SHORTLISTED (green)&lt;br/&gt;70-89: REVIEW REQUIRED (amber)&lt;br/&gt;0-69: REJECTED (red)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="layer-agents-bg">
+          <mxGeometry x="1000" y="60" width="190" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LAYER: LLM -->
+        <!-- ============================================================ -->
+        <mxCell id="layer-llm-bg" value="LLM Gateway" style="swimlane;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="180" y="1010" width="1300" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="litellm-proxy" value="&lt;b&gt;LiteLLM Proxy&lt;/b&gt;&lt;br/&gt;litellm.amzur.com&lt;br/&gt;Auth: LITELLM_API_KEY" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="layer-llm-bg">
+          <mxGeometry x="340" y="40" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="openai-model" value="&lt;b&gt;GPT-4o&lt;/b&gt;&lt;br/&gt;model=gpt-4o&lt;br/&gt;temperature=0.1&lt;br/&gt;via ChatOpenAI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="layer-llm-bg">
+          <mxGeometry x="560" y="40" width="180" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="langchain-note" value="&lt;b&gt;LangChain&lt;/b&gt;&lt;br/&gt;SystemMessage + HumanMessage&lt;br/&gt;llm.ainvoke() async calls" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="layer-llm-bg">
+          <mxGeometry x="780" y="40" width="200" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — User → Frontend -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-user-fe" value="POST resume + JD" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;fontStyle=1;fontSize=11;" edge="1" parent="1" source="browser" target="fe-upload">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- User ← Frontend (SSE results) -->
+        <mxCell id="arr-fe-user" value="Live UI updates (SSE)" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;fontStyle=2;fontSize=11;" edge="1" parent="1" source="fe-dashboard" target="browser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — Frontend → Vite Proxy -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-fe-proxy" value="POST /api/screen" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontStyle=1;fontSize=11;" edge="1" parent="1" source="fe-upload" target="vite-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — Vite Proxy → Backend -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-proxy-be" value="proxied to :8000" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontStyle=1;fontSize=11;" edge="1" parent="1" source="vite-proxy" target="be-endpoint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — Backend internal flow -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-endpoint-val" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="layer-be-bg" source="be-endpoint" target="be-validation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-val-parse" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="layer-be-bg" source="be-validation" target="be-parser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-parse-orch" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="layer-be-bg" source="be-parser" target="be-orchestrator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-orch-json" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=2;" edge="1" parent="layer-be-bg" source="be-orchestrator" target="be-json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — Orchestrator → Agents (4 parallel) -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-orch-exp" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="be-orchestrator" target="agent-experience">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-orch-skills" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="be-orchestrator" target="agent-skills">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-orch-edu" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="be-orchestrator" target="agent-education">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-orch-rf" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="be-orchestrator" target="agent-redflags">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — 4 Agents → Scoring Agent -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-exp-score" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" edge="1" parent="layer-agents-bg" source="agent-experience" target="agent-scoring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-skills-score" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" edge="1" parent="layer-agents-bg" source="agent-skills" target="agent-scoring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-edu-score" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" edge="1" parent="layer-agents-bg" source="agent-education" target="agent-scoring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-rf-score" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" edge="1" parent="layer-agents-bg" source="agent-redflags" target="agent-scoring">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — Agents → LiteLLM -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-exp-llm" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent-experience" target="litellm-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-skills-llm" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent-skills" target="litellm-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-edu-llm" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.4;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent-education" target="litellm-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-rf-llm" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent-redflags" target="litellm-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-score-llm" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.6;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="agent-scoring" target="litellm-proxy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- LiteLLM → GPT-4o -->
+        <mxCell id="arr-litellm-gpt" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="layer-llm-bg" source="litellm-proxy" target="openai-model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arr-gpt-langchain" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="layer-llm-bg" source="openai-model" target="langchain-note">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- ARROWS — Backend SSE → Frontend (streaming results) -->
+        <!-- ============================================================ -->
+        <mxCell id="arr-be-sse-fe" value="SSE stream (agent results)" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2.5;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontStyle=2;fontSize=11;" edge="1" parent="1" source="be-sse" target="fe-dashboard">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1600" y="640" />
+              <mxPoint x="1600" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ============================================================ -->
+        <!-- LEGEND -->
+        <!-- ============================================================ -->
+        <mxCell id="legend-bg" value="Legend" style="swimlane;startSize=25;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="780" width="230" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg1" value="" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;strokeWidth=2;html=1;" edge="1" parent="legend-bg">
+          <mxGeometry x="20" y="50" width="60" height="20" relative="0" as="geometry">
+            <mxPoint x="20" y="60" as="sourcePoint" />
+            <mxPoint x="80" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg1-label" value="HTTP Request" style="text;html=1;fontSize=11;" vertex="1" parent="legend-bg">
+          <mxGeometry x="90" y="48" width="130" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg2" value="" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;strokeWidth=2;dashed=1;html=1;" edge="1" parent="legend-bg">
+          <mxGeometry x="20" y="90" width="60" height="20" relative="0" as="geometry">
+            <mxPoint x="20" y="100" as="sourcePoint" />
+            <mxPoint x="80" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg2-label" value="SSE Stream" style="text;html=1;fontSize=11;" vertex="1" parent="legend-bg">
+          <mxGeometry x="90" y="88" width="130" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg3" value="" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;strokeWidth=1.5;dashed=1;html=1;" edge="1" parent="legend-bg">
+          <mxGeometry x="20" y="130" width="60" height="20" relative="0" as="geometry">
+            <mxPoint x="20" y="140" as="sourcePoint" />
+            <mxPoint x="80" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg3-label" value="Agent Result (async)" style="text;html=1;fontSize=11;" vertex="1" parent="legend-bg">
+          <mxGeometry x="90" y="128" width="130" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg4" value="" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;strokeWidth=2;html=1;" edge="1" parent="legend-bg">
+          <mxGeometry x="20" y="170" width="60" height="20" relative="0" as="geometry">
+            <mxPoint x="20" y="175" as="sourcePoint" />
+            <mxPoint x="80" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leg4-label" value="LLM API Call" style="text;html=1;fontSize=11;" vertex="1" parent="legend-bg">
+          <mxGeometry x="90" y="163" width="130" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
